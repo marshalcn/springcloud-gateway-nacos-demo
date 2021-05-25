@@ -9,10 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>application</module>
         <module>gateway</module>
-        <module>sys-application</module>
-        <module>registry</module>
+        <module>a-service</module>
+        <module>b-service</module>
     </modules>
 
     <properties>
@@ -54,6 +53,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.9</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

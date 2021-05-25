@@ -1,4 +1,5 @@
-
+server:
+  port: 8080
 spring:
   # 配置文件名称，用来标识不同环境的配置。由 spring.profiles.active 的值来决定使用哪组配置。
   ## 转发指定服务并传入参数
@@ -17,28 +18,28 @@ spring:
       # 路由（routes：路由，它由唯一标识（ID）、目标服务地址（uri）、一组断言（predicates）和一组过滤器组成（filters）。filters 不是必需参数。）
       routes:
         # 路由标识（id：标识，具有唯一性）   转发指定服务并传入参数
-        - id: proxy-main
+        - id: proxy-a
           # 目标服务地址（uri：地址，请求转发后的地址）
-          uri: lb://main-service
+          uri: lb://a-service
           predicates:
-            ## 转发地址格式为 uri/archive
-            - Path=/ach/**
+            ## 转发地址为单个字符时StripPrefix不生效
+            - Path=/acc/**
           filters:
+            # 转发前去掉前缀 原始请求localhost:8080/a/greet 转发后请求 a-service/greet 不加以下配置的转发路径为 a-service/a/greet
             - StripPrefix=1
               # 路由标识（id：标识，具有唯一性）   转发指定服务并传入参数
-        - id: proxy-sys
+        - id: proxy-b
       # 目标服务地址（uri：地址，请求转发后的地址）
-          uri: lb://sys-service
+          uri: lb://b-service
           predicates:
-            ## 转发地址格式为 uri/archive
-            - Path=/bat/**
+            - Path=/bll/**
           filters:
-          - StripPrefix=1
-          - name: Hystrix
-            args:
-              name: fallbackcmd
-              ### fallback 时调用的方法 http://localhost:8000/fallback
-              fallbackUri: forward:/fallback
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                ### fallback 时调用的方法 http://localhost:8000/fallback
+                fallbackUri: forward:/fallback
 #          - name: RequestRateLimiter
 #            args:
 #              key-resolver: '#{@uriKeyResolver}'
@@ -72,4 +73,5 @@ spring:
 #  client:
 #    serviceUrl:
 #      # 注册中心地址
+
 #      defaultZone: http://eurekalo.com:8761/eureka/

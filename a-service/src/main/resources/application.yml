@@ -3,7 +3,7 @@ server:
 # 应用名称
 spring:
   application:
-    name: main-service
+    name: a-service
   cloud:
     nacos:
       discovery:
